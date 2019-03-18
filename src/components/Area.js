@@ -1,16 +1,33 @@
 import React from 'react';
 import '../stylesheets/Area.css'
 
-const Area = () => (
+const Area = (props) => {
+  console.log("area", props)
 
-  <div className='area' id={/* Pass in the area name here to make sure this is styled correctly */}>
-    <h3 className='labels'>{/* Don't just pass in the name from the data...clean that thing up */}</h3>
+  function renderHostsByArea(){
+    let findHost = props.hosts.find(host => {
+      if (host.id == props.selectedHost) {
+        let hostArea = host.area
+        if (hostArea === 'under_construction') {
+          return host.firstName
+        }
+      }
 
-    {/* See Checkpoint 1 item 2 in the Readme for a clue as to what goes here */}
+    })
+  console.log(findHost)
+  return findHost
+  }
 
-  </div>
+  return (
+    <div className='area' id={props.area.name}>
+      <h3 className='labels'>{props.area.name.split("_").join(" ").toUpperCase()}</h3>
 
-)
+      <p>{renderHostsByArea()}</p>
+      // {/* See Checkpoint 1 item 2 in the Readme for a clue as to what goes here */}
+
+    </div>
+  )
+}
 
 Area.propTypes = {
   hosts: function(props, propName, componentName){

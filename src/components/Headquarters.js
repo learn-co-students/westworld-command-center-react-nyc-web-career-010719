@@ -2,21 +2,33 @@ import React, { Component } from 'react';
 import '../stylesheets/Headquarters.css';
 import { Grid } from 'semantic-ui-react';
 import Details from './Details'
+import HostList from './HostList'
 
 
 class Headquarters extends Component {
-  // Remember, there's many ways to do this. This doesn't have to be a class component. It's up to you.
+  selectedHost = () =>{
+    let hosts = this.props.hosts
+    let clickedHost = hosts.find(host => host.id === this.props.selectedHostId)
+    return clickedHost
+  }
 
   render(){
     return(
       <Grid celled='internally'>
         <Grid.Column width={8}>
-
-        {/* Something goes here.... */}
-
+          <HostList
+            hosts={this.props.hosts}
+            selectedHostId={this.props.selectedHostId}
+            selectHost={this.props.selectHost}
+            areas={this.props.areas}
+          />
         </Grid.Column>
         <Grid.Column width={5}>
-          <Details />
+          <Details
+            hosts={this.props.hosts}
+            selectedHost={this.selectedHost}           areas={this.props.areas}
+            handleAreaChange={this.props.handleAreaChange}
+          />
         </Grid.Column>
         <Grid.Column width={3}>
 
@@ -25,6 +37,7 @@ class Headquarters extends Component {
         </Grid.Column>
       </Grid>
     )
+
   }
 }
 
