@@ -10,6 +10,21 @@ import LogPanel from './LogPanel'
 
 class Headquarters extends Component {
   // Remember, there's many ways to do this. This doesn't have to be a class component. It's up to you.
+  state = {
+    activated: false
+  }
+
+  toggleActivated = () => {
+    console.log('firing')
+    this.setState({activated: !this.state.activated}, () => {
+      if (this.props.hostInfo) {
+        this.props.activateAllHost(this.state.activated,this.props.hostInfo.id)
+      } else {
+        this.props.activateAllHost(this.state.activated)
+      }
+    })
+  }
+
   render(){
     return(
       <Grid celled='internally'>
@@ -36,7 +51,8 @@ class Headquarters extends Component {
 
         {/* and here. Take visual cues from the screenshot/video in the Readme. */}
           <LogPanel
-            activateAllHost={this.props.activateAllHost}
+            activated={this.state.activated}
+            toggleActivated={this.toggleActivated}
             hostInfo={this.props.hostInfo}
           />
         </Grid.Column>

@@ -24,11 +24,7 @@ const LogPanel = props => {
   }
 
   const handleClick = () => {
-    if (props.hostInfo) {
-      props.activateAllHost(props.hostInfo.id)
-    } else {
-      props.activateAllHost()
-    }
+    props.toggleActivated()
   }
 
   return(
@@ -42,7 +38,7 @@ const LogPanel = props => {
         fluid
         onClick={handleClick}
         color={"red"}
-        content={"ACTIVATE ALL"}
+        content={props.activated ? "DECOMMISSION ALL" : "ACTIVATE ALL"}
       />
     </Segment>
   )

@@ -81,9 +81,9 @@ class WestworldMap extends React.Component {
     this.setState({hosts: copyHost, hostInfo})
   }
 
-  activateAllHost = (id = 0) => {
+  activateAllHost = (activated,id = 0) => {
     let copyHosts = [...this.state.hosts].map( host => {
-      return {...host, active: true}
+      return {...host, active: activated}
     })
     let hostInfo = copyHosts.find(host => host.id === id)
     this.setState({ hosts: copyHosts, hostInfo})
