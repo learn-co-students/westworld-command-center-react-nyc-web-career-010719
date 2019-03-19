@@ -32,7 +32,13 @@ class WestworldMap extends React.Component {
   }
 
   renderAreas = () => {
-    return this.state.areas.map(area => <Area key={area.name} area={area} limit={area.limit} hosts={[]}/>)
+    return this.state.areas.map(area => <Area
+      key={area.name}
+      area={area}
+      limit={area.limit}
+      hosts={this.state.hosts}
+      handleClick={this.handleClick}
+      hostInfo={this.state.hostInfo}/>)
   }
 
   handleClick = (id) => {
@@ -75,7 +81,7 @@ class WestworldMap extends React.Component {
     this.setState({hosts: copyHost, hostInfo})
   }
 
-  activateAllHost = (id) => {
+  activateAllHost = (id = 0) => {
     let copyHosts = [...this.state.hosts].map( host => {
       return {...host, active: !host.active}
     })

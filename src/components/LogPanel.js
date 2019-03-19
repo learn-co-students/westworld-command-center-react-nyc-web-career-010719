@@ -23,6 +23,14 @@ const LogPanel = props => {
     return logs
   }
 
+  const handleClick = () => {
+    if (props.hostInfo) {
+      props.activateAllHost(props.hostInfo.id)
+    } else {
+      props.activateAllHost()
+    }
+  }
+
   return(
     <Segment className="HQComps" id="logPanel">
       <pre>
@@ -32,7 +40,7 @@ const LogPanel = props => {
       {/* Button below is the Activate All/Decommisssion All button */}
       <Button
         fluid
-        onClick={() => props.activateAllHost(props.hostInfo.id)}
+        onClick={handleClick}
         color={"red"}
         content={"ACTIVATE ALL"}
       />
