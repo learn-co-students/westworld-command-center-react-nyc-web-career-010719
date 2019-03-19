@@ -93,7 +93,6 @@ class WestworldMap extends React.Component {
     return (
       <React.Fragment>
         <Segment id="map" >
-          {/* What should we render on the map? */}
           {this.renderAreas()}
         </Segment>
         <Headquarters

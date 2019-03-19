@@ -5,22 +5,40 @@ import { Grid } from 'semantic-ui-react';
 import Details from './Details'
 import ColdStorage from './ColdStorage'
 import LogPanel from './LogPanel'
-
+import { Log } from '../services/Log'
 
 
 class Headquarters extends Component {
-  // Remember, there's many ways to do this. This doesn't have to be a class component. It's up to you.
+
   state = {
-    activated: false
+    activated: false,
+    eventLog: [],
+  }
+
+  addLog = (event) => {
+    this.setState({
+      eventLog: [event, ...this.state.eventLog]
+    })
   }
 
   toggleActivated = () => {
-    console.log('firing')
     this.setState({activated: !this.state.activated}, () => {
       if (this.props.hostInfo) {
-        this.props.activateAllHost(this.state.activated,this.props.hostInfo.id)
+        if (this.state.activated) {
+          this.addLog(Log.warn(`Activating all hosts!`))
+          this.props.activateAllHost(this.state.activated,this.props.hostInfo.id)
+        } else {
+          this.addLog(Log.notify(`Decommissiong all hosts.`))
+          this.props.activateAllHost(this.state.activated,this.props.hostInfo.id)
+        }
       } else {
-        this.props.activateAllHost(this.state.activated)
+        if (this.state.activated) {
+          this.addLog(Log.warn(`Activating all hosts!`))
+          this.props.activateAllHost(this.state.activated)
+        } else {
+          this.addLog(Log.notify(`Decommissiong all hosts.`))
+          this.props.activateAllHost(this.state.activated)
+        }
       }
     })
   }
@@ -29,8 +47,6 @@ class Headquarters extends Component {
     return(
       <Grid celled='internally'>
         <Grid.Column width={8}>
-
-        {/* Something goes here.... */}
           <ColdStorage
             hosts={this.props.hosts}
             hostInfo={this.props.hostInfo}
@@ -45,15 +61,16 @@ class Headquarters extends Component {
             updateActivity={this.props.updateActivity}
             formattedAreas={this.props.formattedAreas}
             updateArea={this.props.updateArea}
+            addLog={this.addLog}
           />
         </Grid.Column>
         <Grid.Column width={3}>
-
-        {/* and here. Take visual cues from the screenshot/video in the Readme. */}
           <LogPanel
             activated={this.state.activated}
             toggleActivated={this.toggleActivated}
             hostInfo={this.props.hostInfo}
+            addLog={this.addLog}
+            eventLog={this.state.eventLog}
           />
         </Grid.Column>
       </Grid>

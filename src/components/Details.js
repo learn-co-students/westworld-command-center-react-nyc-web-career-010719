@@ -5,8 +5,6 @@ import HostInfo from './HostInfo'
 
 
 const Details = props => {
-  // We'll render the logo if no host is selected. But if a host does get selected....
-  // Watch the video to see how this works in the app.
 
   const renderSomething = () => {
     return props.hostInfo ?
@@ -17,6 +15,7 @@ const Details = props => {
       updateActivity={props.updateActivity}
       formattedAreas={props.formattedAreas}
       updateArea={props.updateArea}
+      addLog={props.addLog}
     /> :
       (<Image size='medium' src={Images.westworldLogo}/>)
   }

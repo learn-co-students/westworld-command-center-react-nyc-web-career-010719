@@ -3,8 +3,7 @@ import '../stylesheets/Host.css'
 import { Card } from 'semantic-ui-react'
 
 const Host = props => {
-  {/* NOTE: The className "host selected" renders a different style than simply "host". */}
-
+  
   let selected = ''
 
   if (props.hostInfo) {
