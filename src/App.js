@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './stylesheets/App.css'
 import { Segment } from 'semantic-ui-react';
+import WestworldMap from './components/WestworldMap'
+
 
 
 class App extends Component {
@@ -13,6 +15,7 @@ class App extends Component {
     return (
       <Segment id='app'>
         {/* What components should go here? Check out Checkpoint 1 of the Readme if you're confused */}
+        <WestworldMap />
       </Segment>
     )
   }

@@ -10,6 +10,10 @@ const LogPanel = () => {
     // Use the Log Service class (located in: 'src/services/Log') we've created anywhere you like.
     // Just remember to import it
 
+    //***BUTTON COMMENT***
+    // This isn't always going to be the same color...
+    /* Should the button always read "ACTIVATE ALL"? When should it read "DECOMMISSION ALL"? */
+
     let logs = []
 
     logs.unshift(Log.warn("This is an example of a warn log"))
@@ -24,14 +28,12 @@ const LogPanel = () => {
       <pre>
         {dummyLogs().map((log, i) => <p key={i} className={log.type}>{log.msg}</p>)}
       </pre>
-      
+
       {/* Button below is the Activate All/Decommisssion All button */}
       <Button
         fluid
         color={"red"}
-        {/* This isn't always going to be the same color...*/}
         content={"ACTIVATE ALL"}
-        {/* Should the button always read "ACTIVATE ALL"? When should it read "DECOMMISSION ALL"? */}
       />
     </Segment>
   )
