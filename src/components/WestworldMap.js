@@ -75,6 +75,14 @@ class WestworldMap extends React.Component {
     this.setState({hosts: copyHost, hostInfo})
   }
 
+  activateAllHost = (id) => {
+    let copyHosts = [...this.state.hosts].map( host => {
+      return {...host, active: !host.active}
+    })
+    let hostInfo = copyHosts.find(host => host.id === id)
+    this.setState({ hosts: copyHosts, hostInfo})
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -84,11 +92,13 @@ class WestworldMap extends React.Component {
         </Segment>
         <Headquarters
           hosts={this.state.hosts}
+          areas={this.state.areas}
           hostInfo={this.state.hostInfo}
           handleClick={this.handleClick}
           updateActivity={this.updateActivity}
           formattedAreas={this.state.formattedAreas}
           updateArea={this.updateArea}
+          activateAllHost={this.activateAllHost}
         />
       </React.Fragment>
     )

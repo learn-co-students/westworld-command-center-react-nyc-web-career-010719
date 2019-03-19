@@ -24,6 +24,8 @@ class Headquarters extends Component {
         </Grid.Column>
         <Grid.Column width={5}>
           <Details
+            hosts={this.props.hosts}
+            areas={this.props.areas}
             hostInfo={this.props.hostInfo}
             updateActivity={this.props.updateActivity}
             formattedAreas={this.props.formattedAreas}
@@ -33,7 +35,10 @@ class Headquarters extends Component {
         <Grid.Column width={3}>
 
         {/* and here. Take visual cues from the screenshot/video in the Readme. */}
-          <LogPanel />
+          <LogPanel
+            activateAllHost={this.props.activateAllHost}
+            hostInfo={this.props.hostInfo}
+          />
         </Grid.Column>
       </Grid>
     )

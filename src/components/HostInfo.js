@@ -22,6 +22,13 @@ class HostInfo extends Component {
   }
 
   handleChange = (e, {value}) => {
+    let newArea = this.props.areas.find( area => area.name === value)
+    let hostsInArea = this.props.hosts.filter( host => host.area === value)
+    if (newArea.limit < (hostsInArea + 1)) {
+      null
+    } else {
+      this.props.updateArea(this.props.hostInfo.id, value)
+    }
     // the 'value' attribute is given via Semantic's Dropdown component.
     // Put a debugger in here and see what the "value" variable is when you pass in different options.
     // See the Semantic docs for more info: https://react.semantic-ui.com/modules/dropdown/#usage-controlled
@@ -29,27 +36,27 @@ class HostInfo extends Component {
 
   toggle = () => {
     console.log("The radio button fired");
-    this.props.updateActivity(this.props.host.id)
+    this.props.updateActivity(this.props.hostInfo.id)
   }
 
   render(){
-    console.log(this.props.host.active)
+    console.log(this.props.hostInfo.active)
     return (
       <Grid>
         <Grid.Column width={6}>
           { /* pass in the right image here */ }
           <Image
-            src={this.props.host.imageUrl}
+            src={this.props.hostInfo.imageUrl}
             floated='left'
             size='small'
-            className="hostImg"
+            className="hostInfoImg"
           />
         </Grid.Column>
         <Grid.Column width={10}>
           <Card>
             <Card.Content>
               <Card.Header>
-                {this.props.host.firstName} {this.props.host.lastName} | { this.props.host.gender === 'Male' ? <Icon name='man' /> : <Icon name='woman' />}
+                {this.props.hostInfo.firstName} {this.props.hostInfo.lastName} | { this.props.hostInfo.gender === 'Male' ? <Icon name='man' /> : <Icon name='woman' />}
                 { /* Think about how the above should work to conditionally render the right First Name and the right gender Icon */ }
               </Card.Header>
               <Card.Meta>
@@ -57,8 +64,8 @@ class HostInfo extends Component {
                 {/* Checked takes a boolean and determines what position the switch is in. Should it always be true? */}
                 <Radio
                   onChange={this.toggle}
-                  label={this.props.host.active ? 'Active' : 'Decommissioned'}
-                  checked={this.props.host.active}
+                  label={this.props.hostInfo.active ? 'Active' : 'Decommissioned'}
+                  checked={this.props.hostInfo.active}
                   slider
                 />
               </Card.Meta>
@@ -67,7 +74,7 @@ class HostInfo extends Component {
               Current Area:
               <Dropdown
                 onChange={this.handleChange}
-                value={this.props.host.area}
+                value={this.props.hostInfo.area}
                 options={this.state.options}
                 selection
               />

@@ -9,7 +9,16 @@ const Details = props => {
   // Watch the video to see how this works in the app.
 
   const renderSomething = () => {
-    return props.hostInfo ? <HostInfo host={props.hostInfo}  updateActivity={props.updateActivity} formattedAreas={props.formattedAreas} updateArea={props.updateArea}/> : (<Image size='medium' src={Images.westworldLogo}/>)
+    return props.hostInfo ?
+    <HostInfo
+      hosts={props.hosts}
+      areas={props.areas}
+      hostInfo={props.hostInfo}
+      updateActivity={props.updateActivity}
+      formattedAreas={props.formattedAreas}
+      updateArea={props.updateArea}
+    /> :
+      (<Image size='medium' src={Images.westworldLogo}/>)
   }
 
   return(
