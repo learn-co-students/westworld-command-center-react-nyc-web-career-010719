@@ -1,4 +1,5 @@
 import React from 'react';
+// import Area from './Area';
 import { Segment } from 'semantic-ui-react';
 
 
