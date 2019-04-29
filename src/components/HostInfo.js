@@ -1,56 +1,66 @@
 import '../stylesheets/HostInfo.css'
 import React, { Component } from 'react'
 import { Radio, Icon, Card, Grid, Image, Dropdown, Divider } from 'semantic-ui-react'
-
+import { Log } from '../services/Log'
 
 class HostInfo extends Component {
   state = {
-    options: [{key: "some_area" text: "Some Area" value: "some_area"}, {key: "another_area" text: "Another Area" value: "another_area"}],
-    value: "some_area",
-    // This state is just to show how the dropdown component works.
-    // Options have to be formatted in this way (array of objects with keys of: key, text, value)
-    // Value has to match the value in the object to render the right text.
-
-    // IMPORTANT: But whether it should be stateful or not is entirely up to you. Change this component however you like.
+    options: [],
   }
 
+  updateOptions = () => {
+    this.setState({options: this.props.formattedAreas})
+  }
 
+  componentDidMount() {
+    this.updateOptions()
+  }
 
   handleChange = (e, {value}) => {
-    // the 'value' attribute is given via Semantic's Dropdown component.
-    // Put a debugger in here and see what the "value" variable is when you pass in different options.
-    // See the Semantic docs for more info: https://react.semantic-ui.com/modules/dropdown/#usage-controlled
+    let newArea = this.props.areas.find( area => area.name === value)
+    let hostsInArea = this.props.hosts.filter( host => host.area === value)
+    if (newArea.limit < (hostsInArea.length + 1)) {
+      this.props.addLog(Log.error(`Too many hosts. Cannot add ${this.props.hostInfo.firstName} to ${newArea.name.split("_").map( word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")}.`))
+    } else {
+      this.props.updateArea(this.props.hostInfo.id, value)
+      this.props.addLog(Log.notify(`${this.props.hostInfo.firstName} set in area ${newArea.name.split("_").map( word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")}.`))
+    }
   }
 
   toggle = () => {
-    console.log("The radio button fired");
+    if (this.props.hostInfo.active) {
+      this.props.addLog(Log.notify(`Decommissioned ${this.props.hostInfo.firstName}`))
+      this.props.updateActivity(this.props.hostInfo.id)
+    } else {
+      this.props.addLog(Log.warn(`Activated ${this.props.hostInfo.firstName}`))
+      this.props.updateActivity(this.props.hostInfo.id)
+    }
+
   }
 
   render(){
+    console.log(this.props.hostInfo.active)
     return (
       <Grid>
         <Grid.Column width={6}>
           <Image
-            src={ /* pass in the right image here */ }
+            src={this.props.hostInfo.imageUrl}
             floated='left'
             size='small'
-            className="hostImg"
+            className="hostInfoImg"
           />
         </Grid.Column>
         <Grid.Column width={10}>
           <Card>
             <Card.Content>
               <Card.Header>
-                {"Bob"} | { true ? <Icon name='man' /> : <Icon name='woman' />}
-                { /* Think about how the above should work to conditionally render the right First Name and the right gender Icon */ }
+                {this.props.hostInfo.firstName} {this.props.hostInfo.lastName} | { this.props.hostInfo.gender === 'Male' ? <Icon name='man' /> : <Icon name='woman' />}
               </Card.Header>
               <Card.Meta>
                 <Radio
                   onChange={this.toggle}
-                  label={"Active"}
-                  {/* Sometimes the label should take "Decommissioned". How are we going to conditionally render that? */}
-                  checked={true}
-                  {/* Checked takes a boolean and determines what position the switch is in. Should it always be true? */}
+                  label={this.props.hostInfo.active ? 'Active' : 'Decommissioned'}
+                  checked={this.props.hostInfo.active}
                   slider
                 />
               </Card.Meta>
@@ -59,7 +69,7 @@ class HostInfo extends Component {
               Current Area:
               <Dropdown
                 onChange={this.handleChange}
-                value={this.state.value}
+                value={this.props.hostInfo.area}
                 options={this.state.options}
                 selection
               />
